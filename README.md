@@ -9,7 +9,7 @@ The board was created to electronically switch between electrodes (cathode, anod
 - Use with a GUI designed for efficient pin switching.
 
 ## Components of the Board
-![Top of the Board](images/Screenshot 2024-04-18 at 11.05.44 AM.png)
+![Top of the Board](images/BRAINSBoard_Top_Labelled.png)
 ### Connectors
 - **Raspberry Pi/Arduino and Neuro Nexus:** Facilitates connections to control and process data.
 - **Banana Connectors:** Connects to cathode and anode pulses from the Isolated Analog Power Stimulator and ground.
@@ -24,13 +24,13 @@ The board was created to electronically switch between electrodes (cathode, anod
 
 ## How It Works
 
-### Octal Transparent D-Type Latch
+### $\text{\color{#FF69B4}Octal Transparent D-Type Latch}$
 - Requires a VCC +5V and ground.
 - Output Enable and Latch Enable controls, connected to Arduino/Raspberry Pi, to manage pin outputs.
 
-### Analog SP3T Switch
+### $\text{\color{orange}Analog SP3T Switch}$
 - Two inputs determine the current path (cathode, anode, ground).
 - Output directed through a connector managing pin outputs.
 
-### Solid State Relay
+### $\text{\color{cyan}Solid State Relay}$
 - Activated by a control switch, it powers an LED internally, which in turn activates a photosensitive diode to close the circuit.
