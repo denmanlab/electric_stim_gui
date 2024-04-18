@@ -24,7 +24,7 @@ The board was created to electronically switch between electrodes (cathode, anod
 
 ## How It Works
 
-### Octal Transparent D-Type Latch
+### <span style="background-color:pink; color:black;">Octal Transparent D-Type Latch.</span>
 - Requires a VCC +5V and ground.
 - Output Enable and Latch Enable controls, connected to Arduino/Raspberry Pi, to manage pin outputs.
 
