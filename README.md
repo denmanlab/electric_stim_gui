@@ -9,7 +9,7 @@ The board was created to electronically switch between electrodes (cathode, anod
 - Use with a GUI designed for efficient pin switching.
 
 ## Components of the Board
-![Top of the Board](images/Screenshot 2024-04-18 at 11.05.44 AM.png)
+![Top of the Board](images/BRAINSBoard_Top_Labelled.png)
 ### Connectors
 - **Raspberry Pi/Arduino and Neuro Nexus:** Facilitates connections to control and process data.
 - **Banana Connectors:** Connects to cathode and anode pulses from the Isolated Analog Power Stimulator and ground.
