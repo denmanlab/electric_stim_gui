@@ -1,17 +1,25 @@
 # STG5 and BRAINSBoard GUI
-### This will be a quick guide on how to use all the different tools developed for the STG5, BRAINSBoard, and more!
+### This will be a quick guide on how to use all the different tools developed for the BRAINSBoard, STG5 and more!
+![Top of the Board](images/BRAINSBoard_Side_Profile.png)
+These are both useful tools used in conjunction with one another to easily allow for multi-channel stimulation of the NeuroNexus A1x16 16-Channel Electrode.
 
+# BRAINSBoard:
 ## Purpose
 
-The board was created to electronically switch between electrodes (cathode, anode, and inactive) without physically interacting with the components during experiments. This enables:
-- Stimulation in patterns.
+The BRAINSBoard is a proprietary custom PCB that is designed to electronically switch between Cathode, Anode, Ground, and Floating states for 16 different electrode channels without physically interacting with the components during experiments. This enables:
+- Stimulation at different loci in patterns.
 - Grounding of every inactive pin to prevent noise.
-- Use with a GUI designed for efficient pin switching.
+- Use with a GUI designed for efficient pin switching during and between experiments.
 
 ## Components of the Board
 ![Top of the Board](images/BRAINSBoard_Top_Labelled.png)
 ### Connectors
-- **Raspberry Pi/Arduino and Neuro Nexus:** Facilitates connections to control and process data.
+- **Raspberry Pi/Arduino:** 2x20 Female Pinout facilitates connections to control and process data.
+  - Raspberry Pi can be directly connected on top, Arduino can be connected with the following Pinout:
+  - 
+- **NeuroNexus**
+  - Standard 2x8 Box Connectors with grounding on all top pins to minimize noise. Pinout:
+  - 
 - **Banana Connectors:** Connects to cathode and anode pulses from the Isolated Analog Power Stimulator and ground.
 
 ### Electronic Parts
