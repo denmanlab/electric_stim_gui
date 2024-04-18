@@ -24,13 +24,13 @@ The board was created to electronically switch between electrodes (cathode, anod
 
 ## How It Works
 
-### <span style="background-color:pink; color:black;">Octal Transparent D-Type Latch.</span>
+### $\text{\color{#FF69B4}Octal Transparent D-Type Latch}$
 - Requires a VCC +5V and ground.
 - Output Enable and Latch Enable controls, connected to Arduino/Raspberry Pi, to manage pin outputs.
 
-### Analog SP3T Switch
+### $\text{\color{orange}Analog SP3T Switch}$
 - Two inputs determine the current path (cathode, anode, ground).
 - Output directed through a connector managing pin outputs.
 
-### Solid State Relay
+### $\text{\color{cyan}Solid State Relay}$
 - Activated by a control switch, it powers an LED internally, which in turn activates a photosensitive diode to close the circuit.
