@@ -14,13 +14,14 @@ The BRAINSBoard is a proprietary custom PCB that is designed to electronically s
 ## Components of the Board
 ![Top of the Board](images/BRAINSBoard_Top_Labelled.png)
 ### Connectors
-- **Raspberry Pi/Arduino:** 2x20 Female Pinout facilitates connections to control and process data.
-  - Raspberry Pi can be directly connected on top, Arduino can be connected with the following Pinout:
-  - 
-- **NeuroNexus**
-  - Standard 2x8 Box Connectors with grounding on all top pins to minimize noise. Pinout:
-  - 
-- **Banana Connectors:** Connects to cathode and anode pulses from the Isolated Analog Power Stimulator and ground.
+- <code style="color : gold">Raspberry Pi/Arduino:</code> 2x20 Female Header facilitates connections to control and process data from Arduino/Raspberry Pi. 2x20 90º Male Header allows external connections to unused/useful pins
+  - Raspberry Pi can be directly connected on top of the 2x20 Female Header. Connection Pinout as follows:
+  - ![Raspberry Pi to Brainsboard Connection](images/RPI_2_BB_Pinout.png)
+  - An Arduino can be connected to those same pins with the following Pinout (demonstrated with Arduino Pro Mini):
+![Arduino Pro Mini to Brainsboard Connection](images/BB2ProMicro_bb.png)
+  - Other tools (ie. sensors, actuators, external triggers) can be accessed from the 2x20 90º Male Header with the following Pinout: ![Brainsboard Connection to External Pins](images/BB_2_external_pins_Pinout.png)
+- $\text{\color{white}NeuroNexus}$ Standard 2x8 Box Connectors with grounding on all top pins to minimize noise. Pinout:![Box Headers Pinout](images/eStim_CONNECTORS.png)
+- $\text{\color{red}Banana Connectors:}$ Connects to cathode and anode pulses from an Isolated Analog Power Stimulator (preferred STG5) and a Signal Ground that can be connected to the same common ground as the electrode and stimulator.
 
 ### Electronic Parts
 1. **40-Pin Female Header:** Allows flexibility and attachment to various rigs.
