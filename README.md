@@ -43,3 +43,6 @@ The BRAINSBoard is a proprietary custom PCB that is designed to electronically s
 
 ### $\text{\color{cyan}Solid State Relay}$
 - Activated by a control switch, it powers an LED internally, which in turn activates a photosensitive diode to close the circuit.
+
+### $\text{\color{white}Solid State Relay}$
+This work was supported by NIH NINDS project number 1R01NS120850
