@@ -47,7 +47,7 @@ $\textbf{\color{white}Connectors to Neuronexus:}$
 
 ![Box Header Example Image](images/TSS-108-0x-G-D.jpg)
 
-$\textbf{\color{red}Connectors to Analog Stimulus Isolator:}
+$\textbf{\color{red}Connectors to Analog Stimulus Isolator:}$
 
 [Ground Connector](https://www.digikey.com/en/products/detail/cliff-electronic-components-ltd/FCR7350G/17729033)
 
