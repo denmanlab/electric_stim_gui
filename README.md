@@ -249,5 +249,5 @@ This feature is established to allow you to repeat events as individual trains f
 
 ## FEATURE 3: EXTERNAL SIGNAL SETTINGS
 This feature allows you to send out an external digital signal from a channel of the STG5 of any specified length at the beginning of every train. This is done using the *External Signal Slider* with *unit selection* and *randomize* functionality.
-# $\textbf{\color{white}This work was supported by NIH NINDS project number 1R01NS120850}$
+## $\textbf{\color{white}This work was supported by NIH NINDS project number 1R01NS120850}$
 
