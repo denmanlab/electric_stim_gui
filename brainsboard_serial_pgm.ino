@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #define NUM_CHAN 16     //  Number of channels
-#define NUM_LE    4     // Number od Latch Enables / Number of Channel Groups
+#define NUM_LE    4     // Number of Latch Enables / Number of Channel Groups
 #define NUM_CHAN_PER_GROUP  (NUM_CHAN/NUM_LE)
 #define NUM_CONTROL  2  // Number of CONTROL pins per Channel Group
 #define LE_0  1
@@ -31,7 +31,7 @@
 #define STATE_LOOP_EXECUTE 9
 
 // Pin definitions
-#define EXTERNAL_TRIGGER_PIN 2
+#define EXTERNAL_TRIGGER_PIN 18
 
 long delayDuration = 0; // to store the delay duration
 char delayUnit = 'u'; // default to microseconds
