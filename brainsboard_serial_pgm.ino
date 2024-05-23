@@ -284,10 +284,16 @@ switch (current_state) {
     Serial.println("While in apply, got: ");
     c = get_char();
     Serial.print(c);
-    if (isdigit(c) >= 0 && isdigit(c) <= 9){
+    if (isdigit(c) > 0 && isdigit(c) <= 9){
         Serial.println(" Headed to set delay");
         current_state = STATE_SET_DELAY;
-    } else {
+    } else if (c == 'x') {
+        Serial.println("Headed to external trigger delay");
+        current_state = STATE_EXTERNAL_WAIT;
+    } else if (c == 'l'){
+        Serial.println("Loop command detected.");
+        current_state = STATE_SET_LOOP;
+    } else { 
         Serial.println(" Headed to idle");
         current_state = STATE_IDLE; // Move to the new state to set delay
         }
@@ -379,7 +385,7 @@ switch (current_state) {
           bool number_given = true;
           Serial.print("Number of Loops: ");
           Serial.println(loops_number);
-      } else if ((c == 'l' || c == '\0') && number_given == true) {
+      } else if ((c == 'l' || c == '\0') && number_given == false) {
           loops_number = -1; // Set infinite loop on 'l' or no input
           Serial.println("Infinite loop set.");
           current_state = STATE_LOOP_EXECUTE;
@@ -430,5 +436,3 @@ switch (current_state) {
   }
 }
 }
-
-
