@@ -9,7 +9,7 @@
 #define LE_2  3
 #define LE_3  4
 #define OE    16
-#define CS_0  5
+#define CS_0  6
 #define CS_1  (CS_0+1)
 #define CS_2  (CS_0+2)
 #define CS_3  (CS_0+3)
@@ -211,7 +211,7 @@ switch (current_state) {
     else if (c == -1)
       break;
     else if (c == 'x') {
-      Serial.println("Reading!");
+      Serial.println("External Trigger Delay Beginning!");
       current_state = STATE_EXTERNAL_WAIT;
       break;
     } else if (c == '[') {
@@ -283,12 +283,12 @@ switch (current_state) {
     c = '\0'; // IMPORTANT: Reset 'c' so the delay state can process new characters
     Serial.println("While in apply, got: ");
     c = get_char();
-    Serial.print(c);
+    Serial.println(c);
     if (isdigit(c) > 0 && isdigit(c) <= 9){
         Serial.println(" Headed to set delay");
         current_state = STATE_SET_DELAY;
     } else if (c == 'x') {
-        Serial.println("Headed to external trigger delay");
+        Serial.println("External Trigger Delay Beginning!");
         current_state = STATE_EXTERNAL_WAIT;
     } else if (c == 'l'){
         Serial.println("Loop command detected.");
@@ -301,9 +301,13 @@ switch (current_state) {
   }
   case STATE_EXTERNAL_WAIT:
   {
+      bool printed = false;
       while (digitalRead(EXTERNAL_TRIGGER_PIN) != HIGH) {
         if (trig_started == true) trig_started = false;
-          //if (message_sent == false) Serial.println("Waiting for External Trigger...");
+          if (printed == false){
+            Serial.println("Waiting for External Trigger...");
+            printed = true;
+          }
           delayMicroseconds(1);
       }
       while (digitalRead(EXTERNAL_TRIGGER_PIN) == HIGH && trig_started == false){
@@ -340,8 +344,8 @@ switch (current_state) {
         delayUnit = c; // Set the correct delay unit
         // Apply the delay based on the unit
         if (delayUnit == 's'){
-            Serial.println(delayDuration);
-            Serial.print(' s Delay');
+            Serial.print(delayDuration);
+            Serial.println(' s Delay');
             delay(delayDuration * 1000);
         }
         else if (delayUnit == 'm'){
@@ -350,8 +354,8 @@ switch (current_state) {
             delay(delayDuration);
         }
         else if (delayUnit == 'u'){
-            Serial.println(delayDuration);
-            Serial.print(' u Delay');
+            Serial.print(delayDuration);
+            Serial.println(' u Delay');
             delayMicroseconds(delayDuration);
         }
         current_state = STATE_IDLE; // Delay has been applied, go back to idle
@@ -419,6 +423,7 @@ switch (current_state) {
               break;
           } else if (loops_number == -1) {  // Handle infinite loop separately
               // Keep looping or add condition to break infinite loop
+              Serial.println("This is an Infinite Loop!");
               current_state = STATE_IDLE;
               break;
 
