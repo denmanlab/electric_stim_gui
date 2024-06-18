@@ -100,9 +100,9 @@ void set_channel_state(int channel, Position pos) {
 
     digitalWrite(x, pos.x);
     digitalWrite(y, pos.y);
-    ////Serial.print("Setting Pin ");
-    ////Serial.print(x);
-    ////Serial.print(" to ");
+    //Serial.print("Setting Pin ");
+    //Serial.print(x);
+    //Serial.print(" to ");
     ////Serial.println(pos.x);
     ////Serial.print("and Setting Pin ");
     ////Serial.print(y);
@@ -164,11 +164,11 @@ int get_char() {
 }
 
 void print_current_state() {
-  //Serial.print( "[CS=>");
+  Serial.print( "[CS=>");
   for (int i=0; i < NUM_CHAN; i++) {
-    //Serial.print(channel_state[i]);
+    Serial.print(channel_state[i]);
   }
-  //Serial.println("]\n");
+  Serial.println("]\n");
 }
 
 void set_channel_value(int n, char v) {
@@ -197,12 +197,12 @@ void loop()
 static char c = '\0';  // Initialize with a non-numeric and non-control value
 static int current_chan_num;
 
-////Serial.print(current_state);
+Serial.print(current_state);
 
 switch (current_state) {
   case STATE_IDLE:
   {
-    ////Serial.println("State Idle");
+    //Serial.println("State Idle");
     c = get_char();
     if (c == 'l') {
         //Serial.println("Loop command detected.");
@@ -232,7 +232,7 @@ switch (current_state) {
     //Serial.println("State Get Chan Num");
     c = get_char();
     if (c == -1) {
-      //Serial.println("Failed to get chan num");
+      Serial.println("Failed to get chan num");
       break;
     } else if (c == ']') {
       //Serial.println("Headed to apply from CHAN NUM!");
@@ -371,8 +371,8 @@ switch (current_state) {
   }
   case STATE_ERROR:
   {
-    //Serial.print("ERROR got unexpected character");
-    //Serial.println(c);
+    Serial.print("ERROR got unexpected character");
+    Serial.println(c);
     c = get_char();
     current_state = STATE_IDLE;
     break;
@@ -435,8 +435,8 @@ switch (current_state) {
     // other states as necessary
   default:
   {
-    //Serial.print("Unknown state");
-    //Serial.ln(current_state);
+    Serial.print("Unknown state");
+    //Serial.println(current_state);
   }
 }
 }
