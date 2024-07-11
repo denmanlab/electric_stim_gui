@@ -9,7 +9,7 @@
 #define LE_2  3
 #define LE_3  4
 #define OE    16
-#define CS_0  6
+#define CS_0  5
 #define CS_1  (CS_0+1)
 #define CS_2  (CS_0+2)
 #define CS_3  (CS_0+3)
@@ -43,7 +43,7 @@ char commandHistory[1000];
 int character_pos = 0;
 int current_state = STATE_IDLE;
 
-char channel_state[] = {'F','F','F','F','F','F','F','F','F','F','F','F','F','F','F','F'};
+char channel_state[] = {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'};
 int le_state[NUM_LE] = {1, 1, 1, 1};
 int le_gpio_pins[4] = {LE_0, LE_1, LE_2, LE_3} ; // Example GPIO pins, adjust as needed
 
@@ -100,14 +100,14 @@ void set_channel_state(int channel, Position pos) {
 
     digitalWrite(x, pos.x);
     digitalWrite(y, pos.y);
-    Serial.print("Setting Pin ");
-    Serial.print(x);
-    Serial.print(" to ");
-    Serial.println(pos.x);
-    Serial.print("and Setting Pin ");
-    Serial.print(y);
-    Serial.print(" to ");
-    Serial.println(pos.y);
+    //Serial.print("Setting Pin ");
+    //Serial.print(x);
+    //Serial.print(" to ");
+    //Serial.println(pos.x);
+    //Serial.print("and Setting Pin ");
+    //Serial.print(y);
+    //Serial.print(" to ");
+    //Serial.println(pos.y);
 }
 
 void setup_and_latch(int gn) {
@@ -118,8 +118,8 @@ void setup_and_latch(int gn) {
         set_channel_state(channel, pos);
     }
      // Activate and deactivate LE pin for the group with precise timing
-     Serial.print("Toggling LE pin: ");
-     Serial.println(le_gpio_pins[gn]);
+     //Serial.print("Toggling LE pin: ");
+     //Serial.println(le_gpio_pins[gn]);
     digitalWrite(le_gpio_pins[gn], HIGH);
     delayMicroseconds(3);
     digitalWrite(le_gpio_pins[gn], LOW);
@@ -145,8 +145,8 @@ void setup() {
 int get_char() {
   if (Serial.available() > 0) {
     char ch = Serial.read();
-    Serial.print("GOT: ");
-    Serial.println(ch);
+    //Serial.print("GOT: ");
+    //Serial.println(ch);
     commandHistory[character_pos] = ch;
     character_pos++;
     Serial.print("Command History: ");
@@ -154,10 +154,10 @@ int get_char() {
     return ch;
   } else if (is_looping == true)
   {
-    Serial.println(character_pos);
+    //Serial.println(character_pos);
     char ch = commandHistory[character_pos];
-    Serial.print("GOT: ");
-    Serial.println(ch);
+    //Serial.print("GOT: ");
+    //Serial.println(ch);
     character_pos++;
     return ch;
   }
@@ -179,7 +179,6 @@ void set_channel_value(int n, char v) {
 
 void apply() {
   digitalWrite(OE, HIGH); // Disable output
-  
   for (int gn = 0; gn < NUM_LE; gn++) {
     if (le_state[gn] == 0)
       continue;
@@ -205,21 +204,21 @@ switch (current_state) {
     //Serial.println("State Idle");
     c = get_char();
     if (c == 'l') {
-        Serial.println("Loop command detected.");
+        //Serial.println("Loop command detected.");
         current_state = STATE_SET_LOOP;
     }
     else if (c == -1)
       break;
     else if (c == 'x') {
-      Serial.println("External Trigger Delay Beginning!");
+      //Serial.println("External Trigger Delay Beginning!");
       current_state = STATE_EXTERNAL_WAIT;
       break;
     } else if (c == '[') {
-      Serial.println("Reading!");
+      //Serial.println("Reading!");
       current_state = STATE_GET_CHAN_NUM;
       break;
     } else if (c == '.') {
-      Serial.println("Reading!");
+      //Serial.println("Reading!");
       current_state = STATE_IDLE;
       break;
     } else if (c == -1)
@@ -229,20 +228,20 @@ switch (current_state) {
   }
   case STATE_GET_CHAN_NUM:
   {
-    Serial.println("State Get Chan Num");
+    //Serial.println("State Get Chan Num");
     c = get_char();
     if (c == -1) {
       Serial.println("Failed to get chan num");
       break;
     } else if (c == ']') {
-      Serial.println("Headed to apply from CHAN NUM!");
+      //Serial.println("Headed to apply from CHAN NUM!");
       current_state = STATE_APPLY;
       break;
     } else {
       current_chan_num = to_hex(c);
-      Serial.println(current_chan_num);
+      //Serial.println(current_chan_num);
       if (current_chan_num == -1) {
-        Serial.println("UH OH!");
+        //Serial.println("UH OH!");
         current_state = STATE_IDLE;
         break;
       } else {
@@ -253,24 +252,24 @@ switch (current_state) {
 }
   case STATE_GET_CHAN_VALUE:
   {
-    Serial.println("State Get Chan Value");
+    //Serial.println("State Get Chan Value");
     c = get_char();
     if (c == -1)
       break;
     else if (c == ']') {
-      Serial.println("Headed to Apply from CHAN VALUE");
+      //Serial.println("Headed to Apply from CHAN VALUE");
       current_state = STATE_APPLY;
       break;
     }
     int tf = is_channel_value(c);
     if (tf == 0) {
-      Serial.println("Uh oh at is_channel_value");
+      //Serial.println("Uh oh at is_channel_value");
       current_state = STATE_IDLE;
       break;
     } else {
       set_channel_value(current_chan_num, c);
       current_state = STATE_GET_CHAN_NUM;
-      Serial.println(c);
+      //Serial.println(c);
       break;
     }
   }
@@ -281,20 +280,20 @@ switch (current_state) {
     delayDuration = 0; // Reset delay duration
     delayUnit = 'u'; // Reset to default microseconds
     c = '\0'; // IMPORTANT: Reset 'c' so the delay state can process new characters
-    Serial.println("While in apply, got: ");
+    //Serial.println("While in apply, got: ");
     c = get_char();
-    Serial.println(c);
+    //Serial.println(c);
     if (isdigit(c) > 0 && isdigit(c) <= 9){
-        Serial.println(" Headed to set delay");
+        //Serial.println(" Headed to set delay");
         current_state = STATE_SET_DELAY;
     } else if (c == 'x') {
-        Serial.println("External Trigger Delay Beginning!");
+        //Serial.println("External Trigger Delay Beginning!");
         current_state = STATE_EXTERNAL_WAIT;
     } else if (c == 'l'){
-        Serial.println("Loop command detected.");
+        //Serial.println("Loop command detected.");
         current_state = STATE_SET_LOOP;
     } else { 
-        Serial.println(" Headed to idle");
+        //Serial.println(" Headed to idle");
         current_state = STATE_IDLE; // Move to the new state to set delay
         }
     break;
@@ -302,26 +301,37 @@ switch (current_state) {
   case STATE_EXTERNAL_WAIT:
   {
       bool printed = false;
+      bool triggerFallingEdge = false;
+  
+      // Wait for the trigger signal to go high
       while (digitalRead(EXTERNAL_TRIGGER_PIN) != HIGH) {
-        if (trig_started == true) trig_started = false;
+          if (trig_started == true) trig_started = false;
           if (printed == false){
-            Serial.println("Waiting for External Trigger...");
-            printed = true;
+              //Serial.println("Waiting for External Trigger...");
+              printed = true;
           }
           delayMicroseconds(1);
       }
-      while (digitalRead(EXTERNAL_TRIGGER_PIN) == HIGH && trig_started == false){
-          Serial.println("External trigger received, continuing...");
+  
+      // Wait for the trigger signal to go low (falling edge detection)
+      while (digitalRead(EXTERNAL_TRIGGER_PIN) == HIGH) {
+          triggerFallingEdge = true;
+          delayMicroseconds(1);
+      }
+  
+      if (triggerFallingEdge && trig_started == false){
+          //Serial.println("External trigger received, continuing...");
           trig_started = true;
           current_state = STATE_IDLE;
       }
+  
       //if (message_sent == false) Serial.println("Waiting for External Trigger to end");
       delayMicroseconds(1);
       break;
   }
   case STATE_SET_DELAY:
   {
-    Serial.println("State Set Delay");
+    //Serial.println("State Set Delay");
     if (c == '\0') {
         c = get_char(); // Get the next character if we need to start processing delay
     }
@@ -344,18 +354,18 @@ switch (current_state) {
         delayUnit = c; // Set the correct delay unit
         // Apply the delay based on the unit
         if (delayUnit == 's'){
-            Serial.print(delayDuration);
-            Serial.println(' s Delay');
+            //Serial.print(delayDuration);
+            //Serial.println(' s Delay');
             delay(delayDuration * 1000);
         }
         else if (delayUnit == 'm'){
-            Serial.println(delayDuration);
-            Serial.print(' ms Delay');
+            //Serial.println(delayDuration);
+            //Serial.print(' ms Delay');
             delay(delayDuration);
         }
         else if (delayUnit == 'u'){
-            Serial.print(delayDuration);
-            Serial.println(' u Delay');
+            //Serial.print(delayDuration);
+            //Serial.println(' u Delay');
             delayMicroseconds(delayDuration);
         }
         current_state = STATE_IDLE; // Delay has been applied, go back to idle
@@ -382,20 +392,20 @@ switch (current_state) {
   {
     bool number_given = false;
     c = get_char();
-    Serial.println("STATE_SET_LOOP");
+    //Serial.println("STATE_SET_LOOP");
     if (is_looping != true){
       if (isdigit(c)) {
           loops_number = (loops_number == -1 ? 0 : loops_number) * 10 + (c - '0');
           bool number_given = true;
-          Serial.print("Number of Loops: ");
-          Serial.println(loops_number);
+          //Serial.print("Number of Loops: ");
+          //Serial.println(loops_number);
       } else if ((c == 'l' || c == '\0') && number_given == false) {
           loops_number = -1; // Set infinite loop on 'l' or no input
-          Serial.println("Infinite loop set.");
+          //Serial.println("Infinite loop set.");
           current_state = STATE_LOOP_EXECUTE;
       } else {
           is_looping = true;
-          Serial.println("Starting loop execution.");
+          //Serial.println("Starting loop execution.");
           current_state = STATE_LOOP_EXECUTE;
       }
       break;
@@ -403,15 +413,15 @@ switch (current_state) {
   }
   case STATE_LOOP_EXECUTE:
   {
-      Serial.println("STATE_LOOP_EXECUTE");
+      //Serial.println("STATE_LOOP_EXECUTE");
       if (is_looping) {
-          Serial.println("Replaying commands:");
-          Serial.println(commandHistory);  // Print the entire command history
+          //Serial.println("Replaying commands:");
+          //Serial.println(commandHistory);  // Print the entire command history
           character_pos = 0;
           if (loops_number > 0) {  // Decrement loop count if not infinite
               loops_number--;
-              Serial.print("Loops remaining: ");
-              Serial.println(loops_number);
+              //Serial.print("Loops remaining: ");
+              //Serial.println(loops_number);
               if (loops_number == 0) {  // Check if loops are finished
                   is_looping = false;
                   for (int i = 0; i < 50; i++) {  // Clear command history
@@ -423,7 +433,7 @@ switch (current_state) {
               break;
           } else if (loops_number == -1) {  // Handle infinite loop separately
               // Keep looping or add condition to break infinite loop
-              Serial.println("This is an Infinite Loop!");
+              //Serial.println("This is an Infinite Loop!");
               current_state = STATE_IDLE;
               break;
 
