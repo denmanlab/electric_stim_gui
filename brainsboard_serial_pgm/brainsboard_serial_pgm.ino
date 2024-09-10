@@ -103,11 +103,11 @@ void set_channel_state(int channel, Position pos) {
     //Serial.print("Setting Pin ");
     //Serial.print(x);
     //Serial.print(" to ");
-    ////Serial.println(pos.x);
-    ////Serial.print("and Setting Pin ");
-    ////Serial.print(y);
-    ////Serial.print(" to ");
-    ////Serial.println(pos.y);
+    //Serial.println(pos.x);
+    //Serial.print("and Setting Pin ");
+    //Serial.print(y);
+    //Serial.print(" to ");
+    //Serial.println(pos.y);
 }
 
 void setup_and_latch(int gn) {
@@ -149,8 +149,8 @@ int get_char() {
     //Serial.println(ch);
     commandHistory[character_pos] = ch;
     character_pos++;
-    //Serial.print("Command History: ");
-    //Serial.println(commandHistory);
+    Serial.print("Command History: ");
+    Serial.println(commandHistory);
     return ch;
   } else if (is_looping == true)
   {
@@ -179,7 +179,6 @@ void set_channel_value(int n, char v) {
 
 void apply() {
   digitalWrite(OE, HIGH); // Disable output
-  
   for (int gn = 0; gn < NUM_LE; gn++) {
     if (le_state[gn] == 0)
       continue;
@@ -197,7 +196,7 @@ void loop()
 static char c = '\0';  // Initialize with a non-numeric and non-control value
 static int current_chan_num;
 
-Serial.print(current_state);
+//Serial.print(current_state);
 
 switch (current_state) {
   case STATE_IDLE:
@@ -276,7 +275,7 @@ switch (current_state) {
   }
   case STATE_APPLY:
   {
-    //Serial.println("State Apply");
+    Serial.println("State Apply");
     apply();
     delayDuration = 0; // Reset delay duration
     delayUnit = 'u'; // Reset to default microseconds
@@ -302,19 +301,31 @@ switch (current_state) {
   case STATE_EXTERNAL_WAIT:
   {
       bool printed = false;
+      bool triggerFallingEdge = false;
+  
+      // Wait for the trigger signal to go high
       while (digitalRead(EXTERNAL_TRIGGER_PIN) != HIGH) {
-        if (trig_started == true){
-          trig_started = false;
-          current_state = STATE_IDLE;
-          //delayMicroseconds(300);
-          break;
-        }
+          if (trig_started == true) trig_started = false;
+          if (printed == false){
+              //Serial.println("Waiting for External Trigger...");
+              printed = true;
+          }
+          delayMicroseconds(1);
       }
-      while (digitalRead(EXTERNAL_TRIGGER_PIN) == HIGH && trig_started == false){
-          //Serial.println("External trigger received, waiting...");
+  
+      // Wait for the trigger signal to go low (falling edge detection)
+      while (digitalRead(EXTERNAL_TRIGGER_PIN) == HIGH) {
+          triggerFallingEdge = true;
+          delayMicroseconds(1);
+      }
+  
+      if (triggerFallingEdge && trig_started == false){
+          //Serial.println("External trigger received, continuing...");
           trig_started = true;
+          current_state = STATE_IDLE;
       }
-      //if (message_sent == false) //Serial.println("Waiting for External Trigger to end");
+  
+      //if (message_sent == false) Serial.println("Waiting for External Trigger to end");
       delayMicroseconds(1);
       break;
   }
@@ -436,7 +447,7 @@ switch (current_state) {
   default:
   {
     Serial.print("Unknown state");
-    //Serial.println(current_state);
+    Serial.println(current_state);
   }
 }
 }
