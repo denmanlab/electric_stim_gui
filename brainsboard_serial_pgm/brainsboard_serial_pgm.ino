@@ -47,13 +47,6 @@ char channel_state[] = {'G','G','G','G','G','G','G','G','G','G','G','G','G','G',
 int le_state[NUM_LE] = {1, 1, 1, 1};
 int le_gpio_pins[4] = {LE_0, LE_1, LE_2, LE_3} ; // Example GPIO pins, adjust as needed
 
-const int custom_map[16] = {
-    2, 0, 4, 1, 6, 2, 3, 3,
-    7, 4, 5, 5, 1, 6, 8, 7,
-    13, 8, 9, 9, 14, 10, 15, 11,
-    11, 12, 9, 13, 10, 14, 12, 15
-};
-
 struct Position {
     int x;
     int y;
@@ -68,17 +61,27 @@ Position map_value_to_logic(char value) {
         default:  return {-1, -1};
     }
 }
-
 int to_hex(char c) {
-    int index = -1;
-    if (c >= '0' && c <= '9') {
-        index = c - '0';
-    } else if (c >= 'A' && c <= 'F') {
-        index = 10 + (c - 'A');
+    switch (c) {
+        case '2': return 0;
+        case '4': return 1;
+        case '6': return 2;
+        case '3': return 3;
+        case '7': return 4;
+        case '5': return 5;
+        case '1': return 6;
+        case '8': return 7;
+        case 'D': case 'd': return 8;
+        case 'G': case 'g': return 9;
+        case 'E': case 'e': return 10; // A in hex
+        case 'F': case 'f': return 11; // B in hex
+        case 'B': case 'b': return 12; // C in hex
+        case '9': return 13;           // D in hex
+        case 'A': case 'a': return 14; // E in hex
+        case 'C': case 'c': return 15; // F in hex
+        default: return -1; // Invalid character
     }
-    return index >= 0 && index < 16 ? custom_map[index] : -1;
 }
-
 int sp3t_selector_gpio_pins[NUM_LE][NUM_CONTROL] = {
     {CS_0, CS_1}, // Pins for channel group 0
     {CS_2, CS_3}, // Pins for channel group 1
