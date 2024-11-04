@@ -47,6 +47,13 @@ char channel_state[] = {'G','G','G','G','G','G','G','G','G','G','G','G','G','G',
 int le_state[NUM_LE] = {1, 1, 1, 1};
 int le_gpio_pins[4] = {LE_0, LE_1, LE_2, LE_3} ; // Example GPIO pins, adjust as needed
 
+const int custom_map[16] = {
+    2, 0, 4, 1, 6, 2, 3, 3,
+    7, 4, 5, 5, 1, 6, 8, 7,
+    13, 8, 9, 9, 14, 10, 15, 11,
+    11, 12, 9, 13, 10, 14, 12, 15
+};
+
 struct Position {
     int x;
     int y;
@@ -63,10 +70,13 @@ Position map_value_to_logic(char value) {
 }
 
 int to_hex(char c) {
-    if (c >= '0' && c <= '9') return c - '0';
-    else if (c >= 'a' && c <= 'f') return (c - 'a') + 10;
-    else if (c >= 'A' && c <= 'F') return (c - 'A') + 10;
-    else return -1;
+    int index = -1;
+    if (c >= '0' && c <= '9') {
+        index = c - '0';
+    } else if (c >= 'A' && c <= 'F') {
+        index = 10 + (c - 'A');
+    }
+    return index >= 0 && index < 16 ? custom_map[index] : -1;
 }
 
 int sp3t_selector_gpio_pins[NUM_LE][NUM_CONTROL] = {
